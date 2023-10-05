@@ -50,14 +50,23 @@ const fetchTask=async()=>{
 
 
   const handleDeleteTask=async(id)=>{
+    try {
+      const headers = {
+        'Authorization':localStorage.getItem("UserToken"),
+        'Content-Type': 'application/json',
+      }; 
+      const deleteTask=await axios.delete(`https://lazy-gold-jellyfish-wear.cyclic.app/Task/deleteTask/${id}` ,{headers});
+      const result=deleteTask.data;
+      setFlag((prev)=>!prev)
+    } catch (error) {
+      if(error.response.status==401){
+        alert("You are not authorized to doing this")
+       return 
+      }
+      console.log(error)
+    }
     console.log("id",id)
-    const headers = {
-      'Authorization':localStorage.getItem("UserToken"),
-      'Content-Type': 'application/json',
-    }; 
-    const deleteTask=await axios.delete(`https://lazy-gold-jellyfish-wear.cyclic.app/Task/deleteTask/${id}` ,{headers});
-    const result=deleteTask.data;
-    setFlag((prev)=>!prev)
+   
   }
 
   return (

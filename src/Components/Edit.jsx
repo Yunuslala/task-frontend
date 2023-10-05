@@ -35,9 +35,16 @@ const Edit = () => {
               console.log(obj)
             const response=await axios.patch(`https://lazy-gold-jellyfish-wear.cyclic.app/Task/update/${Id.taskId}`, obj ,{headers});
             const result=response.data
+            if(response.status==401){
+              
+            }
             console.log("result of task",result);
             Navigate('/Task')
         } catch (error) {
+            if(error.response.status==401){
+              alert("You are not authorized to doing this")
+             return Navigate('/Task')
+            }
             console.log(error)
         }
         
